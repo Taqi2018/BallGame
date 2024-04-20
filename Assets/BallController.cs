@@ -28,43 +28,25 @@ public class BallController : MonoBehaviour
     {
         public Vector3 dir;
     }
-
-
-    // Start is called before the first frame update
+    
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         mainCamera = Camera.main;
     }
 
-    // Update is called once per frame
     void Update()
     {
-
         if (Input.GetMouseButtonDown(0)&&!alreadyThrown)
         {
             alreadyThrown = true;
             OnBallThrow?.Invoke(this, EventArgs.Empty);
-
             targetPosition = GetMouseWorldPosition();
-
             direction = (targetPosition - transform.position).normalized;
-
             OnChangeDirection?.Invoke(this, new OnChangeDirEventArgs { dir = direction });
-
-
-
             StartCoroutine(ThrowDelay());
-
-        
-
-         
-
-
-
         }
     }
-
 
     IEnumerator ThrowDelay()
     {
@@ -72,28 +54,16 @@ public class BallController : MonoBehaviour
         transform.parent = null;
         rb.isKinematic = false;
 
-
         float dis = Vector3.Distance(targetPosition, transform.position);
-
         timeOfFlight = Mathf.Sqrt(2 * heightOfParabola / 9.8f) * timeFactor;
         float vix = dis / timeOfFlight; //horizantol
-
         float viy = Mathf.Sqrt(2 * 9.8f * heightOfParabola);
-
         float vf = Mathf.Sqrt(Mathf.Pow((vix), 2) + Mathf.Pow((viy), 2));
-
         float theta = Mathf.Atan2(viy, vix) * Mathf.Rad2Deg;
 
         GetComponent<Rigidbody>().velocity = vix * direction;
         GetComponent<Rigidbody>().velocity += Vector3.up * viy;
-
         StartCoroutine(SetBallIsTriggerOff());
-
-
-
-
-
-
     }
 
 
@@ -101,15 +71,7 @@ public class BallController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
         this.transform.GetComponent<SphereCollider>().isTrigger = false;
-
-    
-
-
     }
-
-
-
-
 
     Vector3 GetMouseWorldPosition()
     {

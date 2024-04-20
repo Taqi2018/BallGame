@@ -5,35 +5,22 @@ using System;
 public class Ball : MonoBehaviour
 {
 
-    public static EventHandler OnPlayerDie;
+     public static EventHandler OnPlayerDie;
 
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+     private void OnCollisionEnter(Collision collision)
+     {
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+          if (collision.transform.tag == "Player")
+          {
+               collision.transform.GetComponent<PlayerCombatController>().currentHealthPlayer -= 10;
 
-    private void OnCollisionEnter(Collision collision)
-    {
+               if (collision.transform.GetComponent<PlayerCombatController>().currentHealthPlayer <= 0)
+               {
+                    OnPlayerDie?.Invoke(this, EventArgs.Empty);
+               }
 
-            if (collision.transform.tag == "Player")
-            {
-                collision.transform.GetComponent<PlayerCombatController>().currentHealthPlayer -= 10;
+          }
 
-            if (collision.transform.GetComponent<PlayerCombatController>().currentHealthPlayer <= 0)
-            {
-                OnPlayerDie?.Invoke(this, EventArgs.Empty);
-            }
 
-            }
-      
-
-    }
+     }
 }

@@ -10,12 +10,16 @@ public class EnemyAnimatorController : MonoBehaviour
 {
      private Animator animator;
      public GameObject ParentObject;
+     private EnemyAttack enemyAttack;
+     private BallController ballController;
 
      // Start is called before the first frame update
      void Start()
      {
           animator = transform.GetComponent<Animator>();
-          EnemyAttack.OnBallThrow += PlayThrowAnimation;
+          enemyAttack = ParentObject.GetComponent<EnemyAttack>();
+          //ballController = ParentObject.GetComponentInChildren<BallController>();
+          enemyAttack.OnBallThrow += PlayThrowAnimation;
           BallController.OnDieBall += PlayEndAnimation;
      }
 
@@ -29,21 +33,15 @@ public class EnemyAnimatorController : MonoBehaviour
           animator.SetBool("isThrowing", true);
      }
 
-
-
-
      // Update is called once per frame
      void Update()
      {
           animator.SetBool("isRunning", ParentObject.GetComponent<EnemeyController>().isRunning);
-
-
      }
      public void StopThrowAnimation()
      {
           animator.SetBool("isThrowing", false);
-          ParentObject.GetComponent<enemyAttack>().isAttacking = false;
-
+          ParentObject.GetComponent<EnemyAttack>().isAttacking = false;
      }
 
 

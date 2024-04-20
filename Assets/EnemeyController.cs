@@ -6,97 +6,78 @@ using UnityEngine;
 using UnityEngine.AI;
 public class EnemeyController : MonoBehaviour
 {
-    public float speed = 5f;
-    private Rigidbody rb;
-    private NavMeshAgent agent;
-    public bool isRunning;
+     public float speed = 5f;
+     private Rigidbody rb;
+     private NavMeshAgent agent;
+     public bool isRunning;
+     public static EnemeyController instance;
+     public float jumpForce;
+     public bool isJumping;
+     private bool isAttacking;
+     private EnemyAttack enemyAttack;
 
-    public static EnemeyController instance;
-    public float jumpForce;
-    public bool isJumping;
-    private bool isAttacking;
+     void Start()
+     {
+          instance = this;
+          rb = GetComponent<Rigidbody>();
+          agent = transform.GetComponent<NavMeshAgent>();
+          StartCoroutine(MoveToNextPos());
+          enemyAttack = GetComponent<EnemyAttack>();
+          enemyAttack.OnBallThrow += StopAction;
+          enemyAttack.OnBallThrowEnd += StartAction;
+     }
 
-    void Start()
-    {
-        instance = this;
-        rb = GetComponent<Rigidbody>();
-        agent=transform.GetComponent<NavMeshAgent>();
+     private void StartAction(object sender, EventArgs e)
+     {
+          isAttacking = false;
+     }
 
-        StartCoroutine(MoveToNextPos());
-        enemyAttack.OnBallThrow += StopAction;
-        enemyAttack.OnBallThrowEnd += StartAction;
-    }
+     private void StopAction(object sender, EventArgs e)
+     {
+          isAttacking = true;
+          agent.SetDestination(transform.position);
+     }
 
-    private void StartAction(object sender, EventArgs e)
-    {
-        isAttacking = false;
-    }
+     IEnumerator MoveToNextPos()
+     {
+          if (!isAttacking)
+          {
+               Vector3 newPos = NewPosition();
+               transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation((newPos - transform.position).normalized), Time.deltaTime * 5f);
+               isRunning = true;
+               agent.SetDestination(newPos);
 
-    private void StopAction(object sender, EventArgs e)
-    {
-        isAttacking = true;
-        agent.SetDestination(transform.position);
-    }
+               while (agent.pathPending || agent.remainingDistance > agent.stoppingDistance)
+               {
+                    yield return null;
+               }
+               if (isAttacking)
+               {
+                    isRunning = false;
+                    agent.SetDestination(transform.position);
+               }
+               while (isAttacking)
+               {
+                    yield return null;
+               }
 
-    IEnumerator MoveToNextPos()
-    {
-        if (!isAttacking)
-        {
-            Vector3 newPos = NewPosition();
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation((newPos - transform.position).normalized), Time.deltaTime * 5f);
-            isRunning = true;
-            agent.SetDestination(newPos);
+               isRunning = false;
+               yield return new WaitForSeconds(UnityEngine.Random.Range(1, 3));
+               StartCoroutine(MoveToNextPos());
+          }
+     }
 
+     Vector3 NewPosition()
+     {
+          float x = UnityEngine.Random.Range(transform.position.x - 3f, transform.position.x + 3f);
+          float z = UnityEngine.Random.Range(transform.position.z - 3f, transform.position.z + 3f);
+          return new Vector3(x, 0, z);
+     }
 
-
-            while (agent.pathPending || agent.remainingDistance > agent.stoppingDistance)
-            {
-
-                yield return null;
-
-            }
-            if (isAttacking)
-            {
-                isRunning = false;
-                agent.SetDestination(transform.position);
-
-
-
-            }
-            while (isAttacking)
-            {
-                yield return null;
-            }
-
-
-            isRunning = false;
-
-
-
-            yield return new WaitForSeconds(UnityEngine.Random.Range(1, 3));
-
-
-
-            StartCoroutine(MoveToNextPos());
-        }
-
-
-    }
-
-
-
-    Vector3 NewPosition()
-    {
-       float x= UnityEngine.Random.Range(transform.position.x-3f,transform.position.x+3f);
-       float z= UnityEngine.Random.Range(transform.position.z- 3f, transform.position.z+ 3f);
-
-        return new Vector3(x, 0, z);
-    }
-
-    private void OnDisable()
-    {
-        enemyAttack.OnBallThrow -= StopAction;
-        enemyAttack.OnBallThrowEnd -= StartAction;
-    }
+     private void OnDisable()
+     {
+          enemyAttack.OnBallThrow -= StopAction;
+          enemyAttack.OnBallThrowEnd -= StartAction;
+     }
 
 }

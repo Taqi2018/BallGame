@@ -6,11 +6,14 @@ using UnityEngine;
 public class AnimatorController : MonoBehaviour
 {
      private Animator animator;
+     private BallController ballControllerInstance;
+     public GameObject ParentObject;
 
      // Start is called before the first frame update
      void Start()
      {
           animator = transform.GetComponent<Animator>();
+          //ballControllerInstance = GetComponentInChildren<BallController>();
           BallController.OnBallThrow += PlayThrowAnimation;
           Ball.OnPlayerDie += PlayerDead;
 
@@ -55,7 +58,7 @@ public class AnimatorController : MonoBehaviour
 
      private void OnDisable()
      {
-          BallController.OnBallThrow -= PlayThrowAnimation;
+          BallController.OnBallThrow += PlayThrowAnimation;
           Ball.OnPlayerDie -= PlayerDead;
      }
 
