@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,7 +20,7 @@ public class BallSpawner : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftControl) == true)
         {
-            /*Instantiate(ballPrefab, parentPoint);*/
+            *//*Instantiate(ballPrefab, parentPoint);*//*
             ballPrefab.GetComponent<Rigidbody>().isKinematic=true;
 
             ballPrefab.transform.position = parentPoint.position;
@@ -28,3 +28,4 @@ public class BallSpawner : MonoBehaviour
         }
     }
 }
+*/

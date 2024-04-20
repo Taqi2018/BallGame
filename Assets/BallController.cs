@@ -1,17 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-<<<<<<< Updated upstream
+
 using System;
-=======
->>>>>>> Stashed changes
+
 
 public class BallController : MonoBehaviour
 {
     Rigidbody rb;
     Camera mainCamera;
     public float forceMultiplier;
-<<<<<<< Updated upstream
+
     public float heightOfParabola;
     private float timeOfFlight;
     public float timeFactor;
@@ -29,8 +28,7 @@ public class BallController : MonoBehaviour
     {
         public Vector3 dir;
     }
-=======
->>>>>>> Stashed changes
+
 
     // Start is called before the first frame update
     void Start()
@@ -42,7 +40,7 @@ public class BallController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-<<<<<<< Updated upstream
+
         if (Input.GetMouseButtonDown(0)&&!alreadyThrown)
         {
             alreadyThrown = true;
@@ -113,22 +111,6 @@ public class BallController : MonoBehaviour
 
 
 
-=======
-        if (Input.GetMouseButtonDown(0))
-        {
-            Vector3 targetPosition = GetMouseWorldPosition();
-
-            Vector3 direction = (targetPosition - transform.position).normalized;
-
-            // Calculate initial velocity for a parabolic trajectory
-            Vector3 velocity = direction * CalculateInitialVelocity(targetPosition);
-
-            rb.isKinematic = false;
-            rb.velocity = velocity;
-        }
-    }
-
->>>>>>> Stashed changes
     Vector3 GetMouseWorldPosition()
     {
         Vector3 worldPos = Vector3.zero;
@@ -142,7 +124,6 @@ public class BallController : MonoBehaviour
         return worldPos;
     }
 
-<<<<<<< Updated upstream
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.tag == "Enemy")
@@ -157,22 +138,5 @@ public class BallController : MonoBehaviour
         }
     }
 
-=======
-    float CalculateInitialVelocity(Vector3 targetPosition)
-    {
-        // Get the height difference between the ball and the target position
-        float heightDifference = targetPosition.y - transform.position.y;
 
-        // Calculate the horizontal distance
-        Vector2 horizontalDirection = new Vector2(targetPosition.x - transform.position.x, targetPosition.z - transform.position.z);
-        float horizontalDistance = horizontalDirection.magnitude;
-
-        // Calculate the initial velocity for parabolic trajectory using projectile motion equations
-        // You may need to tweak this formula based on your scene scale and requirements
-        float gravity = Physics.gravity.magnitude;
-        float initialVelocity = Mathf.Sqrt((horizontalDistance * gravity) / Mathf.Sin(2 * Mathf.PI / 4));
-
-        return initialVelocity;
-    }
->>>>>>> Stashed changes
 }
