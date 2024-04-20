@@ -7426,6 +7426,7 @@ MonoBehaviour:
   heightOfParabola: 1
   timeFactor: 2
   isAttacking: 0
+  throwDelay: 0.5
 --- !u!4 &2066723374 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8718778828885884488, guid: e5f4daf24146ee040b5a2d7a73b30aa0,
