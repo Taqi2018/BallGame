@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
         if (!isDieing)
         {
             Vector3 dir = new Vector3(0, 0, 0);
-            if (Input.GetKey(KeyCode.W))
+            if (Input.GetKey(KeyCode.Z))
             {
                 dir += new Vector3(0, 0, 1 * Time.deltaTime * speed);
 
@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
                 dir += new Vector3(0, 0, -1 * Time.deltaTime * speed);
 
             }
-            if (Input.GetKey(KeyCode.A))
+            if (Input.GetKey(KeyCode.Q))
             {
                 dir += new Vector3(-1 * Time.deltaTime * speed, 0, 0);
             }

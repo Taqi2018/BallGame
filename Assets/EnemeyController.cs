@@ -23,8 +23,8 @@ public class EnemeyController : MonoBehaviour
         agent=transform.GetComponent<NavMeshAgent>();
 
         StartCoroutine(MoveToNextPos());
-        EnemyAttack.OnBallThrow += StopAction;
-        EnemyAttack.OnBallThrowEnd += StartAction;
+        enemyAttack.OnBallThrow += StopAction;
+        enemyAttack.OnBallThrowEnd += StartAction;
     }
 
     private void StartAction(object sender, EventArgs e)
@@ -95,8 +95,8 @@ public class EnemeyController : MonoBehaviour
 
     private void OnDisable()
     {
-        EnemyAttack.OnBallThrow -= StopAction;
-        EnemyAttack.OnBallThrowEnd -= StartAction;
+        enemyAttack.OnBallThrow -= StopAction;
+        enemyAttack.OnBallThrowEnd -= StartAction;
     }
 
 }
