@@ -21,8 +21,6 @@ public class PlayerCombatController : MonoBehaviour
      private void Update()
      {
           playerHealthSlider.value = currentHealthPlayer;
-
-
      }
 
 }

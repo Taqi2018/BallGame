@@ -20,12 +20,17 @@ public class EnemyAnimatorController : MonoBehaviour
           enemyAttack = ParentObject.GetComponent<EnemyAttack>();
           //ballController = ParentObject.GetComponentInChildren<BallController>();
           enemyAttack.OnBallThrow += PlayThrowAnimation;
+          
           BallController.OnDieBall += PlayEndAnimation;
      }
 
-     private void PlayEndAnimation(object sender, EventArgs e)
+     private void PlayEndAnimation(object sender, BallController.OnEnemyDieEventArgs e)
      {
-          animator.SetBool("isDieing", true);
+          if (e.collisionPer.gameObject == ParentObject.gameObject)
+          {
+               animator.SetBool("isDieing", true);
+          }
+          
      }
 
      private void PlayThrowAnimation(object sender, EventArgs e)

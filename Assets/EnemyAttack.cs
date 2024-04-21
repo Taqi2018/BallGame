@@ -32,9 +32,13 @@ public class EnemyAttack : MonoBehaviour
           BallController.OnDieBall += PlayerDead;  
      }
 
-     private void PlayerDead(object sender, EventArgs e)
+     private void PlayerDead(object sender, BallController.OnEnemyDieEventArgs e)
      {
-          isDieing = true;
+          if (e.collisionPer.gameObject == this.gameObject)
+          {
+               isDieing = true;
+          }
+          
      }
 
      private void ChangeDirectionOfPlayer(object sender, BallController.OnChangeDirEventArgs e)
@@ -94,19 +98,6 @@ public class EnemyAttack : MonoBehaviour
      {
           yield return new WaitForSeconds(0.2f);
           ball.GetComponent<Rigidbody>().transform.GetComponent<SphereCollider>().isTrigger = false;
-     }
-
-     Vector3 GetMouseWorldPosition()
-     {
-          Vector3 worldPos = Vector3.zero;
-
-          Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-          if (Physics.Raycast(ray, out RaycastHit hit))
-          {
-               worldPos = hit.point;
-          }
-
-          return worldPos;
      }
 
      private void OnDisable()

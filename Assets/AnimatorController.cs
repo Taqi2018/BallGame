@@ -27,7 +27,6 @@ public class AnimatorController : MonoBehaviour
      private void PlayThrowAnimation(object sender, EventArgs e)
      {
           animator.SetBool("isThrowing", true);
-
           StartCoroutine(StopThrowAnimation());
      }
 
@@ -36,18 +35,12 @@ public class AnimatorController : MonoBehaviour
      void Update()
      {
           animator.SetBool("isRunning", PlayerController.instance.isRunning);
-          /*     if (PlayerController.instance.isJumping)
-               {*/
           animator.SetBool("isJumping", PlayerController.instance.isJumping);
-
-          /*    }*/
      }
      IEnumerator StopThrowAnimation()
      {
           yield return new WaitForSeconds((3.5f / 2f));
           animator.SetBool("isThrowing", false);
-
-
      }
 
      public void StopJumpAnimation()
@@ -58,7 +51,7 @@ public class AnimatorController : MonoBehaviour
 
      private void OnDisable()
      {
-          BallController.OnBallThrow += PlayThrowAnimation;
+          BallController.OnBallThrow -= PlayThrowAnimation;
           Ball.OnPlayerDie -= PlayerDead;
      }
 
