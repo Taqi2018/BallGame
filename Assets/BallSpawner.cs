@@ -15,7 +15,10 @@ public class BallSpawner : MonoBehaviour
     {
         initial = ballPrefab.transform.position;
         BallController.OnChangeDirection += ChangeDirectionOfPlayer;
+       
+        SpawnBall();
     }
+
 
     private void ChangeDirectionOfPlayer(object sender, BallController.OnChangeDirEventArgs e)
     {
@@ -27,15 +30,20 @@ public class BallSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftControl) == true)
+        if (Input.GetKeyDown(KeyCode.LeftControl))
         {
-           var ball= Instantiate(ballPrefab, parentPoint);
-           ball.GetComponent<Rigidbody>().isKinematic=true;
-
-            ball.transform.position = parentPoint.position;
-            ball.transform.SetParent(parentPoint);
-           
+            SpawnBall();
         }
+    }
+
+    void SpawnBall()
+    {
+        var ball = Instantiate(ballPrefab, parentPoint);
+        ball.GetComponent<Rigidbody>().isKinematic = true;
+
+        ball.transform.position = parentPoint.position;
+        ball.transform.SetParent(parentPoint);
+
     }
 
 

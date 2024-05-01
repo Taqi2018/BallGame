@@ -74,9 +74,17 @@ public class BallController : MonoBehaviour
      {
           yield return new WaitForSeconds(0.2f);
           this.transform.GetComponent<SphereCollider>().isTrigger = false;
+
+        StartCoroutine(DestroyBall());
      }
 
-     Vector3 GetMouseWorldPosition()
+    IEnumerator DestroyBall()
+    {
+        yield return new WaitForSeconds(4.0f);
+        Destroy(this.gameObject);
+    }
+
+    Vector3 GetMouseWorldPosition()
      {
           Vector3 worldPos = Vector3.zero;
 

@@ -37,11 +37,19 @@ public class EnemyAttack : MonoBehaviour
           if (e.collisionPer.gameObject == this.gameObject)
           {
                isDieing = true;
+
+            StartCoroutine(DestroyEnemy());
           }
           
      }
 
-     private void ChangeDirectionOfPlayer(object sender, BallController.OnChangeDirEventArgs e)
+    IEnumerator DestroyEnemy()
+    {
+        yield return new WaitForSeconds(2.0f);
+        Destroy(this.gameObject);
+    }
+
+    private void ChangeDirectionOfPlayer(object sender, BallController.OnChangeDirEventArgs e)
      {
           transform.forward = new Vector3(e.dir.x, transform.forward.y, e.dir.z);
      }
@@ -98,9 +106,18 @@ public class EnemyAttack : MonoBehaviour
      {
           yield return new WaitForSeconds(0.2f);
           ball.GetComponent<Rigidbody>().transform.GetComponent<SphereCollider>().isTrigger = false;
+
+        var b = ball;
+        StartCoroutine(DestroyBall(b));
      }
 
-     private void OnDisable()
+    IEnumerator DestroyBall(GameObject b)
+    {
+        yield return new WaitForSeconds(3.0f);
+        Destroy(b);
+    }
+
+    private void OnDisable()
      {
           BallController.OnDieBall -= PlayerDead;
      }

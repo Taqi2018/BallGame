@@ -69,12 +69,19 @@ public class EnemeyController : MonoBehaviour
 
      Vector3 NewPosition()
      {
-          float x = UnityEngine.Random.Range(transform.position.x - 3f, transform.position.x + 3f);
-          float z = UnityEngine.Random.Range(transform.position.z - 3f, transform.position.z + 3f);
+          float x = UnityEngine.Random.Range(transform.position.x - 2f, transform.position.x + 2f);
+          float z = UnityEngine.Random.Range(transform.position.z - 2f, transform.position.z + 2f);
           return new Vector3(x, 0, z);
      }
 
-     private void OnDisable()
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Wall")
+        {
+            StartCoroutine(MoveToNextPos());
+        }
+    }
+    private void OnDisable()
      {
           enemyAttack.OnBallThrow -= StopAction;
           enemyAttack.OnBallThrowEnd -= StartAction;
